@@ -1,4 +1,4 @@
-﻿
+
 * {
     margin: 0;
     padding: 0;
@@ -196,6 +196,64 @@ h2 {
     font-size: 1.1em;
     font-weight: bold;
     color: #667eea;
+}
+
+.detailed-analysis {
+    margin-top: 30px;
+    padding: 25px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 15px;
+    border-left: 4px solid #3498db;
+}
+
+.analysis-section h4 {
+    color: #2c3e50;
+    font-size: 1.4em;
+    margin-bottom: 20px;
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #3498db;
+}
+
+.analysis-section h5 {
+    color: #34495e;
+    font-size: 1.1em;
+    margin: 20px 0 10px 0;
+    padding: 8px 12px;
+    background: white;
+    border-radius: 8px;
+    border-left: 3px solid #3498db;
+}
+
+.analysis-section p {
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+.analysis-section ul {
+    color: #555;
+    line-height: 1.6;
+    margin: 10px 0 15px 20px;
+}
+
+.analysis-section li {
+    margin-bottom: 8px;
+    padding-left: 5px;
+}
+
+.strength-analysis,
+.home-advantage,
+.performance-comparison,
+.tactical-analysis,
+.prediction-reasoning,
+.key-factors {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
 .info {
