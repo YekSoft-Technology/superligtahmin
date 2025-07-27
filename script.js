@@ -1,4 +1,4 @@
-﻿
+
 // Takım güç skorları (1-100 arası)
 const teamStrengths = {
     'galatasaray': 92,
@@ -144,11 +144,153 @@ function displayPrediction(homeTeam, awayTeam, homeWinProb, drawProb, awayWinPro
     
     document.getElementById('final-result').textContent = finalResult;
     
+    // Detaylı analiz ekle
+    const detailedAnalysis = generateDetailedAnalysis(homeTeam, awayTeam, homeWinProb, drawProb, awayWinProb);
+    document.getElementById('detailed-analysis').innerHTML = detailedAnalysis;
+    
     // Sonucu göster
     resultDiv.style.display = 'block';
     
     // Sonuca kaydır
     resultDiv.scrollIntoView({ behavior: 'smooth' });
+}
+
+function generateDetailedAnalysis(homeTeam, awayTeam, homeWinProb, drawProb, awayWinProb) {
+    const homeStrength = teamStrengths[homeTeam];
+    const awayStrength = teamStrengths[awayTeam];
+    const strengthDiff = homeStrength - awayStrength;
+    
+    let analysis = '<div class="analysis-section">';
+    analysis += '<h4>🔍 Detaylı Maç Analizi</h4>';
+    
+    // Takım güçleri analizi
+    analysis += '<div class="strength-analysis">';
+    analysis += '<h5>⚡ Takım Güçleri</h5>';
+    analysis += `<p><strong>${getTeamDisplayName(homeTeam)}:</strong> ${homeStrength}/100 puan - `;
+    analysis += getStrengthDescription(homeStrength);
+    analysis += `</p>`;
+    analysis += `<p><strong>${getTeamDisplayName(awayTeam)}:</strong> ${awayStrength}/100 puan - `;
+    analysis += getStrengthDescription(awayStrength);
+    analysis += `</p>`;
+    analysis += '</div>';
+    
+    // Ev sahibi avantajı
+    analysis += '<div class="home-advantage">';
+    analysis += '<h5>🏠 Ev Sahibi Avantajı</h5>';
+    analysis += `<p>${getTeamDisplayName(homeTeam)} kendi sahasında oynuyor ve bu %8-10 oranında avantaj sağlıyor. `;
+    analysis += 'Taraftar desteği, sahaya aşinalık ve seyahat yorgunluğu olmaması gibi faktörler ev sahibi takımın performansını artırıyor.</p>';
+    analysis += '</div>';
+    
+    // Takım performans karşılaştırması
+    analysis += '<div class="performance-comparison">';
+    analysis += '<h5>📊 Performans Karşılaştırması</h5>';
+    if (strengthDiff > 15) {
+        analysis += `<p>${getTeamDisplayName(homeTeam)} takımı ${getTeamDisplayName(awayTeam)} takımından ${strengthDiff} puan daha güçlü. `;
+        analysis += 'Bu büyük güç farkı, ev sahibi takımın kadro kalitesi, teknik direktör başarısı ve son dönem performansının çok daha iyi olduğunu gösteriyor. ';
+        analysis += 'Böyle maçlarda genellikle güçlü takım kontrolü ele alır ve net fırsatlar yaratır.</p>';
+    } else if (strengthDiff > 5) {
+        analysis += `<p>${getTeamDisplayName(homeTeam)} takımı ${strengthDiff} puan avantajla hafif favori durumda. `;
+        analysis += 'Bu durum, ev sahibi takımın son haftalardaki formu, kadro derinliği veya deneyimli oyuncu sayısının daha fazla olmasından kaynaklanıyor. ';
+        analysis += 'Ancak futbolda her şey olabileceği için dikkatli bir maç bekleniyor.</p>';
+    } else if (strengthDiff > -5) {
+        analysis += '<p>Her iki takım da çok yakın güçte ve maç tamamen dengeli görünüyor. ';
+        analysis += 'Bu tip maçlarda genellikle küçük detaylar, bireysel performanslar ve taktiksel hamler belirleyici oluyor. ';
+        analysis += 'Hem ev sahibi avantajı hem de misafir takımın motivasyonu sonucu etkileyebilir.</p>';
+    } else if (strengthDiff > -15) {
+        analysis += `<p>${getTeamDisplayName(awayTeam)} takımı kağıt üzerinde ${Math.abs(strengthDiff)} puan daha güçlü görünüyor. `;
+        analysis += 'Ancak ev sahibi avantajı bu farkı kapatabilir. Deplasman takımının üstün gelmesi için sahada dominasyonu ele alması ';
+        analysis += 've erken gol bulması önemli olacak.</p>';
+    } else {
+        analysis += `<p>${getTeamDisplayName(awayTeam)} takımı ${Math.abs(strengthDiff)} puanlık büyük avantajla net favori. `;
+        analysis += 'Bu durum, deplasman takımının lig sıralamasındaki üstünlüğü, star oyuncu sayısı ve son dönemdeki istikrarlı ';
+        analysis += 'performansından kaynaklanıyor. Ev sahibi avantajına rağmen deplasman takımı galibiyete daha yakın.</p>';
+    }
+    analysis += '</div>';
+    
+    // Taktiksel analiz
+    analysis += '<div class="tactical-analysis">';
+    analysis += '<h5>⚽ Taktiksel Beklentiler</h5>';
+    analysis += getTacticalAnalysis(homeTeam, awayTeam, homeStrength, awayStrength);
+    analysis += '</div>';
+    
+    // Sonuç tahmini gerekçesi
+    analysis += '<div class="prediction-reasoning">';
+    analysis += '<h5>🎯 Neden Bu Tahmin?</h5>';
+    if (homeWinProb > drawProb && homeWinProb > awayWinProb) {
+        analysis += `<p><strong>${getTeamDisplayName(homeTeam)} galibiyeti %${Math.round(homeWinProb)} ihtimalle en muhtemel sonuç çünkü:</strong></p>`;
+        analysis += '<ul>';
+        analysis += '<li>Ev sahibi avantajı önemli bir faktör</li>';
+        if (strengthDiff > 0) analysis += '<li>Takım gücü açısından üstünlük var</li>';
+        analysis += '<li>Kendi taraftarı önünde oynama motivasyonu</li>';
+        analysis += '<li>Sahaya ve çim koşullarına aşinalık</li>';
+        analysis += '<li>Seyahat yorgunluğu yaşamıyor</li>';
+        analysis += '</ul>';
+    } else if (awayWinProb > homeWinProb && awayWinProb > drawProb) {
+        analysis += `<p><strong>${getTeamDisplayName(awayTeam)} galibiyeti %${Math.round(awayWinProb)} ihtimalle en muhtemel sonuç çünkü:</strong></p>`;
+        analysis += '<ul>';
+        analysis += '<li>Takım kalitesi ev sahibi avantajını aşıyor</li>';
+        analysis += '<li>Son dönem formu çok iyi</li>';
+        analysis += '<li>Deplasmanda başarılı bir takım</li>';
+        if (Math.abs(strengthDiff) > 10) analysis += '<li>Kadro derinliği ve star oyuncu sayısı fazla</li>';
+        analysis += '<li>Taktiksel disiplin ve organizasyon üstün</li>';
+        analysis += '</ul>';
+    } else {
+        analysis += `<p><strong>Beraberlik %${Math.round(drawProb)} ihtimalle en muhtemel sonuç çünkü:</strong></p>`;
+        analysis += '<ul>';
+        analysis += '<li>Takımlar çok yakın güçte</li>';
+        analysis += '<li>Her iki takım da dikkatli oynayabilir</li>';
+        analysis += '<li>Puan kaybetme korkusu baskın gelebilir</li>';
+        analysis += '<li>Taktiksel mücadele ön planda olacak</li>';
+        analysis += '<li>Küçük hatalar sonucu belirleyecek</li>';
+        analysis += '</ul>';
+    }
+    analysis += '</div>';
+    
+    // Dikkat edilmesi gereken faktörler
+    analysis += '<div class="key-factors">';
+    analysis += '<h5>⚠️ Dikkat Edilmesi Gereken Faktörler</h5>';
+    analysis += '<ul>';
+    analysis += '<li><strong>Sakatlık Durumu:</strong> Anahtar oyuncuların sakatlık durumu maç öncesi değişebilir</li>';
+    analysis += '<li><strong>Hava Koşulları:</strong> Yağmur, kar gibi hava koşulları oyunu etkileyebilir</li>';
+    analysis += '<li><strong>Hakem Faktörü:</strong> Kritik kararlar maçın seyrini değiştirebilir</li>';
+    analysis += '<li><strong>Psikolojik Durum:</strong> Takımların moral durumu ve son maç sonuçları etkili</li>';
+    analysis += '<li><strong>Taktiksel Değişiklikler:</strong> Teknik direktörlerin maç anı kararları belirleyici olabilir</li>';
+    analysis += '</ul>';
+    analysis += '</div>';
+    
+    analysis += '</div>';
+    return analysis;
+}
+
+function getStrengthDescription(strength) {
+    if (strength >= 90) return 'Şampiyonluk adayı, çok güçlü kadro';
+    if (strength >= 80) return 'Üst sıra takımı, kaliteli oyuncu kadrosu';
+    if (strength >= 70) return 'Orta üst seviye, istikrarlı performans';
+    if (strength >= 60) return 'Orta seviye, mücadeleci takım';
+    if (strength >= 50) return 'Alt orta seviye, küme mücadelesi veren';
+    return 'Küme düşme potansiyeli olan takım';
+}
+
+function getTacticalAnalysis(homeTeam, awayTeam, homeStrength, awayStrength) {
+    let tactical = '<p>';
+    
+    // Güçlü takım taktikleri
+    if (homeStrength > awayStrength + 10) {
+        tactical += `${getTeamDisplayName(homeTeam)} muhtemelen topa sahip olmaya odaklanacak ve yüksek tempolu bir oyun sergilerken, `;
+        tactical += `${getTeamDisplayName(awayTeam)} savunma odaklı oynayıp kontra atak fırsatlarını değerlendirmeye çalışacak. `;
+        tactical += 'Ev sahibi takım erken gol bulursa maçı kontrol altında tutabilir.';
+    } else if (awayStrength > homeStrength + 10) {
+        tactical += `${getTeamDisplayName(awayTeam)} deplasmanda baskın oyun kurmaya çalışırken inisiyatifi ele alacak. `;
+        tactical += `${getTeamDisplayName(homeTeam)} ise compact bir savunma yapısıyla oyuna başlayıp set piece ve `;
+        tactical += 'hızlı çıkışlardan yararlanmaya odaklanacak.';
+    } else {
+        tactical += 'Her iki takım da dengeli bir yaklaşım sergileyecek. Orta sahada mücadele yoğun geçecek ve ';
+        tactical += 'takımlar birbirlerinin zayıflıklarını bulma arayışında olacak. Maçın ilk yarısı genelde temkinli geçer, ';
+        tactical += 'ikinci yarıda risk alma isteği artabilir.';
+    }
+    
+    tactical += '</p>';
+    return tactical;
 }
 
 // Sayfa yüklendiğinde çalıştır
