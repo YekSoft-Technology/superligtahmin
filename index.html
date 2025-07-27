@@ -1,0 +1,122 @@
+﻿
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Süper Lig Tahmin Robotu</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <!-- Dönen Top Animasyonu -->
+    <div class="floating-ball">⚽</div>
+    
+    <div class="container">
+        <h1>⚽ Süper Lig Tahmin Robotu</h1>
+        <div class="match-predictor">
+            <h2>Maç Tahmini</h2>
+            <div class="team-selection">
+                <div class="team-selector">
+                    <label for="home-team">Ev Sahibi Takım:</label>
+                    <select id="home-team">
+                        <option value="">Takım Seçiniz</option>
+                        <option value="galatasaray">Galatasaray</option>
+                        <option value="fenerbahce">Fenerbahçe</option>
+                        <option value="besiktas">Beşiktaş</option>
+                        <option value="trabzonspor">Trabzonspor</option>
+                        <option value="basaksehir">Başakşehir</option>
+                        <option value="antalyaspor">Antalyaspor</option>
+                        <option value="adanademirspor">Adana Demirspor</option>
+                        <option value="alanyaspor">Alanyaspor</option>
+                        <option value="kayserispor">Kayserispor</option>
+                        <option value="konyaspor">Konyaspor</option>
+                        <option value="sivasspor">Sivasspor</option>
+                        <option value="rizespor">Rizespor</option>
+                        <option value="gaziantepfk">Gaziantep FK</option>
+                        <option value="fatihkaragumruk">Fatih Karagümrük</option>
+                        <option value="kasimpasa">Kasımpaşa</option>
+                        <option value="ankaragucu">Ankaragücü</option>
+                        <option value="istanbulspor">İstanbulspor</option>
+                        <option value="pendikspor">Pendikspor</option>
+                        <option value="hatayspor">Hatayspor</option>
+                        <option value="umraniyespor">Ümraniyespor</option>
+                    </select>
+                </div>
+                <div class="vs">VS</div>
+                <div class="team-selector">
+                    <label for="away-team">Deplasman Takımı:</label>
+                    <select id="away-team">
+                        <option value="">Takım Seçiniz</option>
+                        <option value="galatasaray">Galatasaray</option>
+                        <option value="fenerbahce">Fenerbahçe</option>
+                        <option value="besiktas">Beşiktaş</option>
+                        <option value="trabzonspor">Trabzonspor</option>
+                        <option value="basaksehir">Başakşehir</option>
+                        <option value="antalyaspor">Antalyaspor</option>
+                        <option value="adanademirspor">Adana Demirspor</option>
+                        <option value="alanyaspor">Alanyaspor</option>
+                        <option value="kayserispor">Kayserispor</option>
+                        <option value="konyaspor">Konyaspor</option>
+                        <option value="sivasspor">Sivasspor</option>
+                        <option value="rizespor">Rizespor</option>
+                        <option value="gaziantepfk">Gaziantep FK</option>
+                        <option value="fatihkaragumruk">Fatih Karagümrük</option>
+                        <option value="kasimpasa">Kasımpaşa</option>
+                        <option value="ankaragucu">Ankaragücü</option>
+                        <option value="istanbulspor">İstanbulspor</option>
+                        <option value="pendikspor">Pendikspor</option>
+                        <option value="hatayspor">Hatayspor</option>
+                        <option value="umraniyespor">Ümraniyespor</option>
+                    </select>
+                </div>
+            </div>
+            <button id="predict-btn" onclick="predictMatch()">Tahmin Et!</button>
+            
+            <div id="prediction-result" class="prediction-result" style="display: none;">
+                <h3>Tahmin Sonucu</h3>
+                <div class="prediction-bars">
+                    <div class="prediction-item">
+                        <span class="team-name" id="home-win-team">Ev Sahibi</span>
+                        <div class="progress-bar">
+                            <div class="progress home-win" id="home-win-bar"></div>
+                        </div>
+                        <span class="percentage" id="home-win-percent">0%</span>
+                    </div>
+                    
+                    <div class="prediction-item">
+                        <span class="team-name">Beraberlik</span>
+                        <div class="progress-bar">
+                            <div class="progress draw" id="draw-bar"></div>
+                        </div>
+                        <span class="percentage" id="draw-percent">0%</span>
+                    </div>
+                    
+                    <div class="prediction-item">
+                        <span class="team-name" id="away-win-team">Deplasman</span>
+                        <div class="progress-bar">
+                            <div class="progress away-win" id="away-win-bar"></div>
+                        </div>
+                        <span class="percentage" id="away-win-percent">0%</span>
+                    </div>
+                </div>
+                
+                <div class="final-prediction">
+                    <h4>En Muhtemel Sonuç:</h4>
+                    <p id="final-result"></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info">
+            <h3>📊 Nasıl Çalışır?</h3>
+            <p>Bu tahmin robotu takımların mevcut form durumları, ev sahibi avantajı, geçmiş karşılaşma verileri ve lig performanslarını analiz ederek tahmin yapar.</p>
+        </div>
+        
+        <div class="developer-signature">
+            Yekta Demirkol
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
